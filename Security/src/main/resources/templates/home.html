@@ -4,13 +4,13 @@
 	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 
 <head>
-<title>Insert title here</title>
+<title>Pocetna stranica</title>
 </head>
 <body>
 	<h1>Dobro dosli!</h1>
 	<!--  -->
-	<p><a th:href=@{public}>Javna strana</a></p>
-	<p><a th:href=@{users}>Korisnici</a></p>
-	<p><a th:href=@{userdetails}>Detalji o korisniku</a></p>	 
+	<p><a th:href=@{public}>Javna stranica</a></p>
+	<p><a href="/users">Lista korisnika</a></p>
+	<p><a href="/add-user">Dodavanje korisnika</a></p>	 
 </body>
 </html>
