@@ -6,4 +6,6 @@ import com.example.security.model.TUser;
 
 public interface TUserRepository extends JpaRepository<TUser, Integer>{
 
+	TUser findByUsername(String username);
+
 }
