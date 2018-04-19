@@ -32,7 +32,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.and().csrf().disable();
 	}
 	*/
-	/**/
+	/*
 	//	in memory autentifikacija
 	//	default login forma
 	// 	odjava na /login?logout
@@ -51,10 +51,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		UserDetails user2 = User.withDefaultPasswordEncoder().username("admin").password("password").roles("ADMIN").build();
 		return new InMemoryUserDetailsManager(user1, user2);
 	}
+	*/
 	/**/
-	/*
 	@Autowired
 	private MyUserDetailsService userDetailsService;
+	
+	protected void configure(HttpSecurity http) throws Exception {
+		http.authorizeRequests()
+				.antMatchers("/home","/","/public").permitAll()
+				.antMatchers("/insert").hasRole("ADMIN") // u bazi treba da bude vrednost ROLE_ADMIN
+				.anyRequest().authenticated()
+				.and()
+			.formLogin();
+	}
 	
 	@Bean
 	public PasswordEncoder encoder() {
@@ -72,5 +81,5 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 		auth.authenticationProvider(authenticationProvider());
 	}
-	*/
+	/**/
 }
