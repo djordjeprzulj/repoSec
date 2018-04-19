@@ -6,6 +6,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 
@@ -13,7 +14,8 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	/*
-	//	Basic authentication, zahteva se autentifikacija za svaku stranicu, dozvoljen pristup samo home
+	//	Basic authentication 
+	//  autentifikacija za svaku stranicu, dozvoljen pristup samo home
 	//	ne uzima se u obzir autorizacija
 	protected void configure(HttpSecurity http) throws Exception {
 		http
@@ -23,26 +25,23 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.and().csrf().disable();
 	}
 	*/
-/*
-	// in memory autentifikacija
+	
+	//	in memory autentifikacija
+	//	default login forma
+	// 	odjava na /login?logout
 	protected void configure(HttpSecurity http) throws Exception {
-		http
-				.authorizeRequests().antMatchers("/", "/home").permitAll()
+		http.authorizeRequests()
+				.antMatchers("/home","/","/public").permitAll()
+				.antMatchers("/insert").hasRole("ADMIN")
 				.anyRequest().authenticated()
-//				.and()
-//			.formLogin()
-//				.loginPage("/login")
-//				.permitAll()
-//				.and()
-//			.logout()
-//				.permitAll()
-				.and().httpBasic();
+				.and()
+			.formLogin();
 	}
-	*/
+
 	@Bean
-	public UserDetailsService userDetailsService() {
-		InMemoryUserDetailsManager manager = new InMemoryUserDetailsManager();
-		manager.createUser(User.withDefaultPasswordEncoder().username("user").password("password").roles("USER").build());
-		return manager;
+	public UserDetailsService userDetailsService() {		
+		UserDetails user1 = User.withDefaultPasswordEncoder().username("user").password("password").roles("USER").build();
+		UserDetails user2 = User.withDefaultPasswordEncoder().username("admin").password("password").roles("ADMIN").build();
+		return new InMemoryUserDetailsManager(user1, user2);
 	}
 }

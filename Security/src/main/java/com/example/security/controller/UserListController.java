@@ -15,13 +15,12 @@ import com.example.security.model.TUser;
 import com.example.security.repository.TUserRepository;
 
 @Controller
-@RequestMapping("/users")
 public class UserListController {
 
 	@Autowired
 	private TUserRepository tUserRepository;		
 
-	@GetMapping
+	@GetMapping("/users")
 	public ModelAndView getAllUsersView() {
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("userslist");
